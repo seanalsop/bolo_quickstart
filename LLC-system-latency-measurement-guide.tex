@@ -72,7 +72,7 @@ Our test system used two UUTs, “Local” and “Remote” to simulate a system
 	\centering
 	\includegraphics[width=5.0in]{images/remote_ao_diagram.png}
 	\caption{The system connections.}
-	\label{system_connections}
+	\label{systemconnections}
 \end{figure}
 
 \subsection{Firmware \& software versions on the acq2106 systems}
@@ -308,14 +308,14 @@ Note that the histogram points are maximum latency per period, so we do not miss
 	\centering
 	\includegraphics[width=4.0in]{images/zcopy_20kHz.png}
 	\caption{Histogram of maximum latency. Clock rate 20kHz. Intel core i7 CPU.}
-	\label{}
+	\label{zcopy20hist}
 \end{figure}
 
 \begin{figure}
 	\centering
 	\includegraphics[width=4.0in]{images/zcopy_50kHz.png}
 	\caption{Histogram of maximum latency. Clock rate 50kHz. Intel core i7 CPU.}
-	\label{}
+	\label{zcopy50hist}
 \end{figure}
 
 From figures 2 and 3 it can be seen that the performance of the system in zcopy mode (hence zero software overhead) is very uniform.
@@ -326,7 +326,7 @@ The system performs similarly when operating at 50kHz as when compared to 20kHz.
 	\centering
 	\includegraphics[width=4.0in]{images/50kHz_xeon.png}
 	\caption{Histogram of maximum latency. Clock rate 50kHz. Intel Xeon CPU.}
-	\label{}
+	\label{xeon50}
 \end{figure}
 
 This is the test from Fig 3 repeated on a XEON (multi-processor) system.
@@ -339,7 +339,7 @@ This is possibly a good application for D‑TACQ “Alternate Target” technolo
 	\centering
 	\includegraphics[width=5.0in]{images/20kHz_annotated_scope.png}
 	\caption{A scope trace taken of two systems “Local”, “Remote” at 20kHz.}
-	\label{}
+	\label{zcopy20scope}
 \end{figure}
 
 This shows end-to-end latency of  approx. 6.2 µs in N mode. 
@@ -349,8 +349,8 @@ The terminal windows show how the OUTPUT\_DELAY is set and the result is observe
 \begin{figure}
 	\centering
 	\includegraphics[width=5.0in]{images/50kHz_annotated_scope.png}
-	\caption{A scope trace of two systems at 50kHz showing an approximate overall latency of 6.6 µs.}
-	\label{}
+	\caption{A scope trace of two systems at 50kHz showing an approximate overall latency of 7 $\mu$s $\pm$ 1$\mu$s.}
+	\label{zcopy50scope}
 \end{figure}
 
 Figures 5 and 6 demonstrate the overall latency of the system measured across the analog signal ports.
@@ -371,14 +371,14 @@ python ./llc_spad_reg_histogram.py acq2106_085
 	\centering
 	\includegraphics[width=4.0in]{images/cpu_copy_20kHz.png}
 	\caption{A histogram of the FPGA maximum register during a cpucopy run at 20kHz}
-	\label{}
+	\label{cpu20hist}
 \end{figure}
 
 \begin{figure}
 	\centering
 	\includegraphics[width=4.0in]{images/cpu_copy_50kHz.png}
 	\caption{A histogram of the FPGA maximum register during a cpucopy run at 50kHz}
-	\label{}
+	\label{cpu50hist}
 \end{figure}
 
 Figures 7 and 8 look similar to figures 2 and 3 because the FPGA registers are measuring hardware latency.
@@ -391,15 +391,15 @@ It is more illustrative to look at the scope traces for a cpucopy run.
 \begin{figure}
 	\centering
 	\includegraphics[width=4.0in]{images/20kHz_annotated_scope_cpucopy.png}
-	\caption{A scope trace of a cpucopy run at 20kHz. Latency is approximately 9.2 µs.}
-	\label{}
+	\caption{A scope trace of a cpucopy run at 20kHz. Latency is approximately 9 $\mu$s $\pm$ 1$\mu$s.}
+	\label{cpu20scope}
 \end{figure}
 
 \begin{figure}
 	\centering
 	\includegraphics[width=4.0in]{images/50kHz_annotated_scope_cpucopy.png}
-	\caption{A scope trace of a cpucopy run at 50kHz. Latency is approximately 9.3 µs.}
-	\label{}
+	\caption{A scope trace of a cpucopy run at 50kHz. Latency is approximately  9 $\mu$s $\pm$ 1$\mu$s.}
+	\label{cpu50scope}
 \end{figure}
 
 \subsection{Discussion}
@@ -493,7 +493,7 @@ Setting OUTPUT\_DELAY to the minimum required to achieve \textit{\textbf{N-Mode}
 	\centering
 	\includegraphics[width=4.0in]{images/n-mode-pcs-scope-trace-20kHz.png}
 	\caption{An example PCS system with a more representative OUTPUT\_DELAY of 10$\mu$s at 20kHz.}
-	\label{}
+	\label{20repscope}
 \end{figure}
 
 Fig 11 shows a system is programmed with a OUTPUT\_DELAY of 10$\mu$s at 20kHz.
@@ -506,7 +506,7 @@ Note that OUTPUT\_DELAY could be increased to 20, 30 $\mu$s, allowing 15, 25$\mu
 	\centering
 	\includegraphics[width=4.0in]{images/n-mode-pcs-scope-trace-50kHz.png}
 	\caption{An example PCS system with a more representative OUTPUT\_DELAY of 10$\mu$s at 50kHz.}
-	\label{}
+	\label{50repscope}
 \end{figure}
 
 Figure 12 is a scope trace with the same OUTPUT\_DELAY, 5$\mu$sec processing, but now at 50kHz.
