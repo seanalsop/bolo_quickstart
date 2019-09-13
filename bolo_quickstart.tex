@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage{graphicx}
 \usepackage[hidelinks]{hyperref}
+\hypersetup{colorlinks,urlcolor=blue, linkcolor=black}
 \usepackage{url}
 
 \begin{document}
@@ -20,7 +21,7 @@
 This document serves as a quickstart guide to the BOLO8-BLF module.
 It will walk the user through the initial setup, configuration, and testing to make sure that the module is in working order.
 This document relies on the user already having Control System Studio (CSS) installed on their host computer.
-Installation instructions are provided on the D-TACQ ACQ400CSS GitHub repo here:
+Installation instructions are provided on the \mbox{D-TACQ} ACQ400CSS GitHub repo here:
 \newline
 \centerline{ \href{https://github.com/D-TACQ/ACQ400CSS}{https://github.com/D-TACQ/ACQ400CSS} }
 \newline
@@ -42,8 +43,8 @@ This is covered in section \ref{calibrating}.
 \end{enumerate}
 
 \section{Hardware setup and confguration}
-The D-TACQ BOLO8-BLF test panel uses a ZIF (zero insertion force) socket to hold the bolometer and allows the user to measure various test points on the bolometer when in use.
-This is the panel D-TACQ recommend using initially.
+The \mbox{D-TACQ} BOLO8-BLF test panel uses a ZIF (zero insertion force) socket to hold the bolometer and allows the user to measure various test points on the bolometer when in use.
+This is the panel \mbox{D-TACQ} recommend using initially.
 Once the bolometer has been fitted to the test panel the user can connect the panel to the front of the BOLO8-BLF module.
 Figure \ref{boloZIFimage} shows a bolometer sitting in the test panel ZIF socket.
 Figure \ref{boloZIFconnctedImage} shows the same test board connected to the BOLO8-BLF mezzanine in the acq2106 carrier.
@@ -101,10 +102,10 @@ Figure \ref{bolocsscapture} shows the same data with channels masked down to CH0
 
 \section{Calibrating the system} \label{calibrating}
 To calibrate the system it is recommended that the bolo8\_cal\_cap\_loop.py python script is used.
-This can be found in the HAPI python library provided by D-TACQ mentioned previously in this document.
+This can be found in the HAPI python library provided by \mbox{D-TACQ} mentioned previously in this document.
 
 \subsection{Installing the acq400\_hapi package}
-It can also be found on the acq2106 system provided the acq400\_hapi package has been included.
+The acq400\_hapi package can also be found on the acq2106 system provided the acq400\_hapi package has been included.
 The user can include the acq400\_hapi package (if it is not already installed) by doing the following from an ssh session on the acq2106:
 \begin{verbatim}cp /mnt/packages.opt/*hapi* /mnt/packages/\end{verbatim}
 The system will need to be rebooted to make sure these changes are included.
@@ -145,7 +146,7 @@ Once the desired calibration channels have been chosen the python script can tha
 
 \section{Performing the stream test after a calibration}
 The same CS Studio test can be performed after having calibrated the system.
-Figure \ref{3fincal} only shows 3 fins because the bolometer at use for testing at D-TACQ only has 3 working foils.
+Figure \ref{3fincal} only shows 3 fins because the bolometer at use for testing at \mbox{D-TACQ} only has 3 working foils.
 Note that all of the channels are now offset from the same value (very close to 0 volts).
 The fins having varying heights can be attributed to the torch being positioned at an angle above the bolometer and the light from it being distributed unevenly.
 Figure \ref{currentvoltage} shows the offset current and voltages for the calibration run.
@@ -162,7 +163,7 @@ Channel 4 on figure \ref{currentvoltage} is an example of no offset current appl
 \begin{figure} [hbt!]
 	\centering
 	\includegraphics[width=5.0in]{images/bolo-css-current-volts.png}
-	\caption{A CS Studio screen showing 3 channels of offset current and offset voltage after a calibration has been performed. Note the broken bolometer channel.}
+	\caption{A CS Studio screen showing 3 channels of offset voltage and offset current after a calibration has been performed. Note the broken bolometer channel.}
 	\label{currentvoltage}
 \end{figure}
 
@@ -185,8 +186,8 @@ The data should look like figure \ref{cssbolotransient}
 \end{figure}
 
 \section{Conclusion}
-This document has illustrated the recommended method for testing a D-TACQ acq2106 fitted with the BOLO8-BLF mezzanine.
-The recommended steps are to insert the bolometer in the D-TACQ bolomter test panel ZIF socket and connect the panel to the acq2106.
+This document has illustrated the recommended method for testing a \mbox{D-TACQ} acq2106 fitted with the BOLO8-BLF mezzanine.
+The recommended steps are to insert the bolometer in the \mbox{D-TACQ} bolomter test panel ZIF socket and connect the panel to the acq2106.
 Once CS Studio is installed the user can stream data from the acq2106 and use a flashing bicycle lamp to inspect the shark fin shape in the resultant data. Calibration removes the offsets observed in a non-calibrated system. 
 
 \section{Appendix: Embedded web page diagnostics}
