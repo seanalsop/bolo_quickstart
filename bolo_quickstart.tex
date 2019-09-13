@@ -31,7 +31,9 @@ The repo (and installation instructions) can be found here:
 \newline
 The script can be found in user\_apps/special/ and is named ``bolo8\_cal\_cap\_loop.py".
 This script is not needed for immediate use, but is needed for system calibration and shot control later in the guide.
-\newpage
+The python calibration script (bolo8\_cal\_cap\_loop.py) is also available on the UUT if the HAPI package is included.
+This is covered in section \ref{calibrating}.
+
 \subsection{Recommended reading}
 \begin{enumerate}
 	\item \href{http://www.d-tacq.com/resources/d-tacq-4G-acq4xx-UserGuide-r28.pdf}{The D-TACQ 4G User Guide}
@@ -60,7 +62,6 @@ Figure \ref{boloZIFconnctedImage} shows the same test board connected to the BOL
 	\label{boloZIFconnctedImage}
 \end{figure}
 
-\newpage
 
 \section{Using CS Studio to stream live data}
 CS Studio can be used to stream lower rate data from the acq2106.
@@ -73,6 +74,7 @@ The shark-fin shape is the data acquired as the foils heat up and cool down as t
 Note that the channels have not yet been calibrated and so the offsets have not been accounted for yet.
 This means that some channels likely will be visually offset from one another.
 In figure \ref{bolocss3finnocal} this can be observed on the first three channels.
+Figure \ref{bolocsscapture} shows the same data with channels masked down to CH01, allowing the display to autoscale on CH01.
 
 \begin{figure} [hbt!]
 	\centering
@@ -97,26 +99,51 @@ In figure \ref{bolocss3finnocal} this can be observed on the first three channel
 
 \newpage
 
-\section{Using python to calibrate the system}
+\section{Calibrating the system} \label{calibrating}
 To calibrate the system it is recommended that the bolo8\_cal\_cap\_loop.py python script is used.
 This can be found in the HAPI python library provided by D-TACQ mentioned previously in this document.
-Remember to remove the flashing bicycle lamp from the vicinity of the bolometer when calibrating the BOLO8-BLF module.
-\newline
-To calibrate the acq2106 first connect to the acq2106 using ssh and edit the following file:
+
+\subsection{Installing the acq400\_hapi package}
+It can also be found on the acq2106 system provided the acq400\_hapi package has been included.
+The user can include the acq400\_hapi package (if it is not already installed) by doing the following from an ssh session on the acq2106:
+\begin{verbatim}cp /mnt/packages.opt/*hapi* /mnt/packages/\end{verbatim}
+The system will need to be rebooted to make sure these changes are included.
+The following command should be used to reboot:
+\begin{verbatim}sync;sync;reboot\end{verbatim}
+
+The HAPI package installs HAPI to the following location on the acq2106:
+
+\begin{verbatim}
+/usr/local/HAPI/
+\end{verbatim}
+
+With bolo8\_cal\_cap\_loop.py being located here:
+
+\begin{verbatim}
+/usr/local/HAPI/user_apps/special/bolo8_cal_cap_loop.py
+\end{verbatim}
+
+\subsection{Choosing channels to calibrate}
+
+To calibrate first connect to the acq2106 using ssh and edit the following file:
 
 \begin{verbatim} /mnt/local/sysconfig/bolo.sh \end{verbatim}
 
-and select which channels you wish to calibrate by changing the following line.
+Select which channels you wish to calibrate by changing the following line:
 
 \begin{verbatim} BOLO_ACTIVE_CHAN="1 2 3 4" \end{verbatim}
 
-Once the desired calibration channels have been chosen the python script can than be run from the host computer like so:
+\subsection{Running a calibration}
 
-\begin{verbatim} python bolo8_cal_cap_loop.py --cal=1 --cap=0 --shots=1 acq2106_123\end{verbatim}
+Remember to remove the flashing bicycle lamp from the vicinity of the bolometer when calibrating the BOLO8-BLF module.
+Once the desired calibration channels have been chosen the python script can than be run from the host computer or from the acq2106 like so:
 
-\newpage
+\begin{verbatim} ./bolo8_cal_cap_loop.py --cal=1 --cap=0 --shots=1 acq2106_123\end{verbatim}
 
-\section{Performing the same test after a calibration}
+
+
+
+\section{Performing the stream test after a calibration}
 The same CS Studio test can be performed after having calibrated the system.
 Figure \ref{3fincal} only shows 3 fins because the bolometer at use for testing at D-TACQ only has 3 working foils.
 Note that all of the channels are now offset from the same value (very close to 0 volts).
@@ -139,10 +166,38 @@ Channel 4 on figure \ref{currentvoltage} is an example of no offset current appl
 	\label{currentvoltage}
 \end{figure}
 
+\subsection{Taking a transient capture after a calibration}
+After taking a calibration a transient capture can also be taken to capture the flashing light.
+This can be done using the bolo8\_cal\_cap\_loop.py script like so:
+
+\begin{verbatim} ./bolo8_cal_cap_loop.py --cal=0 --cap=1 --shots=1 acq2106_123\end{verbatim}
+
+This will show several bike lamp flashes over 100k samples.
+At a default sample rate of 10kHz the capture will take 10 seconds.
+Open the CS Studio BOLO8 post shot MAG plot from the BOLO8 launcher shown in figure \ref{bolocsslauncher}.
+The data should look like figure \ref{cssbolotransient}
+
+\begin{figure} [hbt!]
+	\centering
+	\includegraphics[width=5.0in]{images/bolo-css-transient.png}
+	\caption{A CS Studio transient plot showing three working channels capturing light from a flashing bicycle lamp.}
+	\label{cssbolotransient}
+\end{figure}
 
 \section{Conclusion}
 This document has illustrated the recommended method for testing a D-TACQ acq2106 fitted with the BOLO8-BLF mezzanine.
 The recommended steps are to insert the bolometer in the D-TACQ bolomter test panel ZIF socket and connect the panel to the acq2106.
 Once CS Studio is installed the user can stream data from the acq2106 and use a flashing bicycle lamp to inspect the shark fin shape in the resultant data. Calibration removes the offsets observed in a non-calibrated system. 
+
+\section{Appendix: Embedded web page diagnostics}
+It is also worth mentioning the embedded web page diagnostic tools which can be seen in figure \ref{bolopages}.
+These tools allow the user to see the values that the last calibration returned, the calibration offsets that were loaded into the FPGA after the last calibration, and the DSP settings that are currently active.
+
+\begin{figure} [hbt!]
+	\centering
+	\includegraphics[width=5.0in]{images/bolo-pages.png}
+	\caption{Three firefox windows showing the BOLO embedded web pages.}
+	\label{bolopages}
+\end{figure}
 
 \end{document}
