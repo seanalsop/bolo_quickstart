@@ -46,14 +46,14 @@ Once the bolometer has been fitted to the test panel the user can connect the pa
 Figure \ref{boloZIFimage} shows a bolometer sitting in the test panel ZIF socket.
 Figure \ref{boloZIFconnctedImage} shows the same test board connected to the BOLO8-BLF mezzanine in the acq2106 carrier.
 
-\begin{figure}
+\begin{figure} [hbt!]
     \centering
     \includegraphics[width=5.0in]{images/bolo-zif.jpg}
     \caption{A bolometer sitting in the test board ZIF socket}
     \label{boloZIFimage}
 \end{figure}
 
-\begin{figure}
+\begin{figure} [hbt!]
 	\centering
 	\includegraphics[width=5.0in]{images/bolo-zif-connected.jpg}
 	\caption{A bolometer sitting in the test board ZIF socket connected to an acq2106 system.}
@@ -74,21 +74,21 @@ Note that the channels have not yet been calibrated and so the offsets have not 
 This means that some channels likely will be visually offset from one another.
 In figure \ref{bolocss3finnocal} this can be observed on the first three channels.
 
-\begin{figure}
+\begin{figure} [hbt!]
 	\centering
 	\includegraphics[width=5.0in]{images/css_launcher.png}
 	\caption{A CS Studio screen showing where to access the correct BOLO8 launcher.}
 	\label{bolocsslauncher}
 \end{figure}
 
-\begin{figure}
+\begin{figure} [hbt!]
 	\centering
 	\includegraphics[width=5.0in]{images/3-fin-no-cal.png}
 	\caption{A CS Studio screen showing 3 channels without calibration. Note the offsets between channels.}
 	\label{bolocss3finnocal}
 \end{figure}
 
-\begin{figure}
+\begin{figure} [hbt!]
 	\centering
 	\includegraphics[width=5.0in]{images/1-fin-no-cal.png}
 	\caption{The capture and MAG stream OPIs open with a sharkfin on the MAG OPI.}
@@ -121,12 +121,22 @@ The same CS Studio test can be performed after having calibrated the system.
 Figure \ref{3fincal} only shows 3 fins because the bolometer at use for testing at D-TACQ only has 3 working foils.
 Note that all of the channels are now offset from the same value (very close to 0 volts).
 The fins having varying heights can be attributed to the torch being positioned at an angle above the bolometer and the light from it being distributed unevenly.
+Figure \ref{currentvoltage} shows the offset current and voltages for the calibration run.
+This allows the user to verify that nothing has gone wrong with the calibration.
+Channel 4 on figure \ref{currentvoltage} is an example of no offset current applied.
 
-\begin{figure}
+\begin{figure} [hbt!]
 	\centering
 	\includegraphics[width=5.0in]{images/3-fin-cal.png}
 	\caption{A CS Studio screen showing 3 channels after a calibration has been performed. Note the offsets have disappeared.}
 	\label{3fincal}
+\end{figure}
+
+\begin{figure} [hbt!]
+	\centering
+	\includegraphics[width=5.0in]{images/bolo-css-current-volts.png}
+	\caption{A CS Studio screen showing 3 channels of offset current and offset voltage after a calibration has been performed. Note the broken bolometer channel.}
+	\label{currentvoltage}
 \end{figure}
 
 
