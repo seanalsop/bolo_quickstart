@@ -111,7 +111,7 @@ The user can include the acq400\_hapi package (if it is not already installed) b
 The system will need to be rebooted to make sure these changes are included.
 The following command should be used to reboot:
 \begin{verbatim}sync;sync;reboot\end{verbatim}
-
+\subsubsection{HAPI package location}
 The HAPI package installs HAPI to the following location on the acq2106:
 
 \begin{verbatim}
@@ -200,5 +200,18 @@ These tools allow the user to see the values that the last calibration returned,
 	\caption{Three firefox windows showing the BOLO embedded web pages.}
 	\label{bolopages}
 \end{figure}
+
+\section{Appendix: New EGU on CSS}
+Some advancements in the CS-Studio OPIs is shown in figure \ref{boloegu}.
+Rather than raw ADC codes now the OPIs feature a scale in Volts and Amps.
+
+\begin{figure} [hbt!]
+	\centering
+	\includegraphics[width=5.0in]{images/css_egu.png}
+	\caption{New engineering units featured in CSS OPIs.}
+	\label{boloegu}
+\end{figure}
+
+
 
 \end{document}
