@@ -3,9 +3,22 @@
 \usepackage[hidelinks]{hyperref}
 \hypersetup{colorlinks,urlcolor=blue, linkcolor=black}
 \usepackage{url}
+\usepackage{listings}
+
+
+\lstset{%
+	language=[LaTeX]TeX,
+%	backgroundcolor=\color{gray!25},
+%	~=\( \sim \),
+	literate={~} {$\sim$}{1},
+	basicstyle=\ttfamily,
+	breaklines=true,
+	columns=fullflexible
+}
+
 
 \begin{document}
-
+%\lstdefineformat{R}{~=\( \sim \)}
 \title{D-TACQ BOLO8-BLF Quickstart Guide}
 \author{Sean Alsop \\ Contact: \href{mailto:sean.alsop@d-tacq.co.uk}{sean.alsop@d-tacq.co.uk} }
 
@@ -185,9 +198,69 @@ The data should look like figure \ref{cssbolotransient}
 	\label{cssbolotransient}
 \end{figure}
 
+\section{Creating an MDSplus tree for use with the BOLO8 module}
+To create an MDSplus tree the user should clone the  \href{https://github.com/D-TACQ/ACQ400_MDSplus_TREESUPPORT}{ACQ400\_MDSplus\_TREESUPPORT} repo. The user can do this with the following command entered at the command line: 
+
+\begin{verbatim} git clone https://github.com/D-TACQ/ACQ400_MDSplus_TREESUPPORT.git \end{verbatim}
+
+Once this has been done the user should 'cd' into the newly cloned directory and use the make\_bolo\_tree.py command to
+create a new tree for the acq2106 system you want to use with MDSplus:
+
+\begin{verbatim} ./make_bolo_tree.py --bolo8_count=N acq2106_yyy \end{verbatim}
+
+Where 'N' is the number of BOLO8 mezzanine cards you have and 'acq2106\_yyy' is the hostname of your device. 
+Follow the instructions provided by the script to add the environment variables to the relevant file in MDSplus
+and then run the script again to create the tree. The tree can be viewed using jTraverser once the script has finished.
+
+\subsection{postshot script}
+In order to upload the data to MDSplus after a calibration or a capture, there must be a 'postshot' script located in 
+'/mnt/local' of the acq2106. An example postshot script is provided below.
+
+
+\begin{lstlisting}[breaklines]
+#!/bin/sh
+set -e
+mdsConnect (MDSplus server name)
+mdsOpen $(hostname)
+mdsPutCh -v 1 --size=4 --expr "\"Build_Signal(Build_With_Units(\$VALUE, 'raw'),\$,%tbase)\"" --field ".BOLO1.CH%02d" --site=1 1:24
+mdsPutCh -v 1 --size=4 --expr "\"Build_Signal(Build_With_Units(\$VALUE, 'raw'),\$,%tbase)\"" --field ".BOLO2.CH%02d" --site=2 1:24
+mdsPutCh -v 1 --size=4 --expr "\"Build_Signal(Build_With_Units(\$VALUE, 'raw'),\$,%tbase)\"" --field ".BOLO3.CH%02d" --site=3 1:24
+mdsPutCh -v 1 --size=4 --expr "\"Build_Signal(Build_With_Units(\$VALUE, 'raw'),\$,%tbase)\"" --field ".BOLO4.CH%02d" --site=4 1:24
+mdsClose
+mdsDisconnect
+/usr/local/bin/reset.dsp
+\end{lstlisting}
+
+Once this file has been copied into the '/mnt/local' directory on the acq2106 the system will automatically attempt to upload the
+captured data after a calibration or a regular capture.
+
+\subsection{Using jscope-bolo-gen.py to generate .jscp files}
+To quickly view the MDSplus data the user should use jscope-bolo-gen.py, also available in the
+\href{https://github.com/D-TACQ/ACQ400_MDSplus_TREESUPPORT}{ACQ400\_MDSplus\_TREESUPPORT} repo.
+In order to use this script the user must create a 'default.jscp' file, which is just a blank jscp file generated
+when jScope is started with no arguments. To create a default.jscp the user would start jScope as normal and then 
+immediately press \\
+'customize' $\rightarrow$ 'save current settings as ' and then save as 'default.jscp'. The user can run the jscope-bolo-gen.py
+script as such:
+
+\begin{lstlisting}[breaklines]
+python3 jscope-bolo-gen.py acq2106_123 > ~/jScope/configurations/bolo.jscp
+\end{lstlisting}
+
+Once the jScope file has been saved, the user can choose the .jscp file from jScope by selecting \\
+'customize' $\rightarrow$ 'use saved settings from' and then choosing bolo.jscp.
+
+\begin{figure} [hbt!]
+	\centering
+	\includegraphics[width=5.0in]{images/jscope.png}
+	\caption{jScope example image using generated jscp config file}
+	\label{jscope}
+\end{figure}
+
+\newpage
 \section{Conclusion}
 This document has illustrated the recommended method for testing a \mbox{D-TACQ} acq2106 fitted with the BOLO8-BLF mezzanine.
-The recommended steps are to insert the bolometer in the \mbox{D-TACQ} bolomter test panel ZIF socket and connect the panel to the acq2106.
+The recommended steps are to insert the bolometer in the \mbox{D-TACQ} bolometer test panel ZIF socket and connect the panel to the acq2106.
 Once CS Studio is installed the user can stream data from the acq2106 and use a flashing bicycle lamp to inspect the shark fin shape in the resultant data. Calibration removes the offsets observed in a non-calibrated system. 
 
 \section{Appendix: Embedded web page diagnostics}
